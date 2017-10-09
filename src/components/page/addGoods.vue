@@ -1,6 +1,7 @@
 <template>
 	<div id="form">
 		<div class="crumbs">
+			
 			<el-breadcrumb separator="/">
 				<el-breadcrumb-item><i class="el-icon-menu"></i> 商品管理</el-breadcrumb-item>
 				<el-breadcrumb-item :to="{ path: '/goods' }"> 商品列表</el-breadcrumb-item>
@@ -46,7 +47,7 @@
 					  </el-form-item>
 					  <el-form-item label="静态属性" required>
 					  	  <el-button type="primary" icon="plus" @click='addStaticAttributes'></el-button>
-						  <div v-for='(item,index) in static_attributes' v-if='static_attributes.length>=1' style="margin-top:20px">
+						  <div v-for='(item,index) in static_attributes'  style="margin-top:20px">
 						  	<el-input v-model="item.staticAttributesName" style='width:80px'></el-input>
 								<el-tag
 				                    :key="tag"
@@ -70,6 +71,7 @@
 				                  >
 				                  </el-input>
 				                  <el-button v-else class="button-new-tag" size="small" @click="showInput(index)">添加新属性</el-button>
+				                <el-button type="primary" icon="delete" @click="deleteAttribute(index)"></el-button>
 						  </div>
 					  </el-form-item>
 					  <el-form-item label="是否置顶" required>
@@ -135,7 +137,11 @@
 		        dynamicTags: [],
 		        inputVisible: false,
 		        inputValue: '',
-		        static_attributes:[],
+		        static_attributes:[
+		        	{
+		        		dynamicTags:['标签一', '标签二', '标签三']
+		        	}
+		        ],
 		        specsList:[],
 				specs:[],
 
@@ -257,10 +263,11 @@
 	        },
 	        //点击添加属性标签显示输入框
 		    showInput(index) {
-		      console.log(222)
+		    	var self=this
 		      this.static_attributes[index].inputVisible = true;
 		      this.$nextTick(_ => {
-		        this.$refs.saveTagInput[index].$refs.input.focus();
+		      	console.log(self.$refs)
+		        self.$refs.saveTagInput[index].$refs.input.focus();
 		      });
 		    },
 			//删除数组中某元素
@@ -294,7 +301,11 @@
 	          this.dialogImageUrl = file.url;
 	          this.dialogVisible = true; 
 	        },
-
+	        //删除静态属性
+	        deleteAttribute(index){
+	        	var self = this;
+	        	self.static_attributes.splice(index,1)
+	        },
 	        
 			//提交
 			onSubmit(formData){
@@ -373,7 +384,7 @@
 			},
 			//标签删除属性
 		    handleClose(tag,index) {
-		      this.static_attributes[index].dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+		      this.static_attributes[index].dynamicTags.splice(this.static_attributes[index].dynamicTags.indexOf(tag), 1);
 		    },
 		   
 		    //标签新增属性

@@ -97,10 +97,10 @@
     }
     .user-info .user-logo{
         position: absolute;
-        left:0;
-        top:15px;
-        width:40px;
-        height:40px;
+        left:-15px;
+        top:5px;
+        width:60px;
+        height:60px;
         border-radius: 50%;
     }
     .el-dropdown-menu__item{

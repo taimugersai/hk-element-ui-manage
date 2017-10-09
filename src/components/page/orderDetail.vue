@@ -224,7 +224,10 @@
                           message: `网络异常，获取失败`
                         });
                     } else {
-                    	
+                    	self.$message({
+                          type: 'info',
+                          message: `操作成功`
+                        });
                     	self.getData()
                     	//self.store=res.data.data.data
                         
