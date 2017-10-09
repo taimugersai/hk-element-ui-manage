@@ -45,9 +45,9 @@
 					  <el-form-item label="商品描述" prop='desc'>
 					    <el-input type="textarea" v-model="formData.desc"></el-input>
 					  </el-form-item>
-					  <el-form-item label="静态属性" required>
+					  <el-form-item label="静态属性" required >
 					  	  <el-button type="primary" icon="plus" @click='addStaticAttributes'></el-button>
-						  <div v-for='(item,index) in static_attributes'  style="margin-top:20px">
+						  <div v-for='(item,index) in static_attributes'  style="margin-top:20px" >
 						  	<el-input v-model="item.staticAttributesName" style='width:80px'></el-input>
 								<el-tag
 				                    :key="tag"
@@ -64,7 +64,7 @@
 				                    class="input-new-tag"
 				                    v-if="item.inputVisible"
 				                    v-model="item.inputValue"
-				                    ref="saveTagInput"
+				                    v-ref="saveTagInput"
 				                    size="mini"
 				                    @keyup.enter.native="handleInputConfirm(index)"
 				                    @blur="handleInputConfirm(index)"
@@ -138,9 +138,6 @@
 		        inputVisible: false,
 		        inputValue: '',
 		        static_attributes:[
-		        	{
-		        		dynamicTags:['标签一', '标签二', '标签三']
-		        	}
 		        ],
 		        specsList:[],
 				specs:[],
@@ -178,9 +175,13 @@
 		created(){
 			var self=this;
             this.getAllClass();
+
             if(self.$route.query.id){
 		      self.id=self.$route.query.id;
-		      self.getData()
+		      setTimeout(function(){
+		      	  self.getData()
+		      },500)
+		    
 		    }
 		    self.actionUrl=api.baseUrl+"/upload"
         },
@@ -245,6 +246,7 @@
 				           		}
 				               self.static_attributes.push(item);
 				        }
+				        self.formData.classify=res.category_id
 			        }
 			    }).catch(function(error) {
 			        console.log(error);
@@ -265,9 +267,9 @@
 		    showInput(index) {
 		    	var self=this
 		      this.static_attributes[index].inputVisible = true;
+		      this.static_attributes.splice(index,1,this.static_attributes[index])
 		      this.$nextTick(_ => {
-		      	console.log(self.$refs)
-		        self.$refs.saveTagInput[index].$refs.input.focus();
+		      	 //self.$refs.saveTagInput[index].$refs.input.focus();
 		      });
 		    },
 			//删除数组中某元素
