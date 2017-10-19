@@ -198,7 +198,7 @@
 		              }
 		          }
 		      }).catch(function(error) {
-		          console.log(error);
+		          //console.log(error);
 		      });
 		    },
 			//提交
@@ -305,7 +305,7 @@
 		      	axios.post(url,
 			        qs.stringify(data)
 			      ).then((res) => {
-			        console.log(JSON.stringify(res));
+			        //console.log(JSON.stringify(res));
 			        if(res.data.responseCode==1){
 
 			          self.$message({
@@ -317,7 +317,7 @@
 			          
 			        }
 			      }).catch(function(error) {
-			        console.log(error);
+			        //console.log(error);
 			      });
 		      }else{
 	      		self.$message({
@@ -337,11 +337,11 @@
 				self.map.panTo(point);
 				geoc.getLocation(point, function(rs){
 					var addComp = rs.addressComponents;
-					console.log(addComp.street + ", " + addComp.streetNumber);
+					//console.log(addComp.street + ", " + addComp.streetNumber);
 					//$('#search').val(addComp.street + addComp.streetNumber);
 				});
 				//$('#geolocation').val(e.point.lng+','+e.point.lat);
-				console.log(e.point)
+				//console.log(e.point)
 				self.form[6].value=e.point.lng
 				self.form[7].value=e.point.lat
 			}

@@ -28,15 +28,15 @@
 			    // 对响应错误做点什么
 			    if (error.response) {
 			      // 请求已发出，但服务器响应的状态码不在 2xx 范围内
-			      console.log(error.response.data);
-			      console.log(error.response.status);
+			      //console.log(error.response.data);
+			      //console.log(error.response.status);
 			      if(error.response.status==401){
 			      	self.$message({
 						type: 'info',
 						message: `用户名密码错误`
 				  	});
 			      }
-			      console.log(error.response.headers);
+			      //console.log(error.response.headers);
 			    } else {
 			      // Something happened in setting up the request that triggered an Error
 			      self.$message({

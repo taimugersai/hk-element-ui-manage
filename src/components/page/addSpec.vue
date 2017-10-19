@@ -101,7 +101,7 @@ export default {
               }
           }
       }).catch(function(error) {
-          console.log(error);
+          //console.log(error);
       });
     },
     //提交
@@ -122,7 +122,7 @@ export default {
       axios.post(url,
         qs.stringify(data)
       ).then((res) => {
-        console.log(JSON.stringify(res));
+        //console.log(JSON.stringify(res));
         if(res.data.responseCode==1){
 
           self.$message({
@@ -134,7 +134,7 @@ export default {
           
         }
       }).catch(function(error) {
-        console.log(error);
+        //console.log(error);
       });
     },
     //删除属性

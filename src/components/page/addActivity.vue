@@ -91,7 +91,7 @@
 			            }
 			        }
 			    }).catch(function(error) {
-			        console.log(error);
+			        //console.log(error);
 			    });
 			},
 			onSubmit() {
@@ -158,7 +158,7 @@
 	                        self.$router.push('/activity')
 	                    }
 	                }).catch(function(error) {
-	                    console.log(error);
+	                    //console.log(error);
 	                });
 			    }else{
 			    	self.$message({

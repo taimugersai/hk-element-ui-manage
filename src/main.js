@@ -15,7 +15,7 @@ new Vue({
     render: h => h(App)
 }).$mount('#app');
 if(localStorage.getItem('token')){
-	console.log(localStorage.getItem('token'))
+	//console.log(localStorage.getItem('token'))
 	axios.defaults.headers.common['Authorization'] = 'Bearer '+localStorage.getItem('token');
 	axios.defaults.headers.common['Accept'] = 'application/json';
 }

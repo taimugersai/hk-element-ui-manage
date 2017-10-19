@@ -209,12 +209,12 @@
                           message: `网络异常，获取失败`
                         });
                     } else {
-                    	console.log(res)
+                    	//console.log(res)
                     	self.store=res.data.data.data
                         
                     }
                 }).catch(function(error) {
-                    console.log(error);
+                    //console.log(error);
                 });
 			},
 			getData() {
@@ -232,7 +232,7 @@
                         self.total=res.data.data.total
                     }
                 }).catch(function(error) {
-                    console.log(error);
+                    //console.log(error);
                 });
 			},
 			search() {
@@ -258,7 +258,7 @@
                         self.total=res.data.data.total
                     }
                 }).catch(function(error) {
-                    console.log(error);
+                    //console.log(error);
                 });
 			},
 			formatter(row, column) {

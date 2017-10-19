@@ -30,7 +30,7 @@
 				  </el-select>
 			</div>
 			<div class="search_box">
-				<el-button type="primary" icon="search" @click="goodsSearch">搜索</el-button>
+				<el-button type="primary" icon="search" @click="getData">搜索</el-button>
 			</div>
 			<div class="search_box" style='float:right;margin-top:10px;'>
 				<router-link to="/addGood">
@@ -136,7 +136,7 @@
                         self.total=res.data.data.total;
                     }
                 }).catch(function(error) {
-                    console.log(error);
+                    //console.log(error);
                 });
 			},
 			getAllCategory(){
@@ -149,18 +149,25 @@
                           message: `网络异常，获取失败`
                         });
                     } else {
-                    	//console.log(res.data.data)
+                    	////console.log(res.data.data)
                         self.Category=res.data.data;
                         // self.size=res.data.data.per_page;
                         // self.total=res.data.data.total;
                     }
                 }).catch(function(error) {
-                    console.log(error);
+                    //console.log(error);
                 });
 			},
 			getData() {
 				let self = this;
-                axios.get(api.baseUrl +'/goods/'+localStorage.getItem('type')+'?page='+self.cur_page,
+                axios.get(api.baseUrl +'/goods/'+localStorage.getItem('type'),
+                	{
+					    params: {
+					      	page:self.cur_page,
+							search:self.searchData.search,
+							category_id: self.searchData.category_id,
+					    }
+					  }
                 ).then((res) => {
                     if(res.data.responseCode == 0) {
                         self.$message({
@@ -173,7 +180,7 @@
                         self.total=res.data.data.total;
                     }
                 }).catch(function(error) {
-                    console.log(error);
+                    //console.log(error);
                 });
 			},
 			search() {
@@ -200,7 +207,7 @@
 	                        self.getData()
 	                    }
 	                }).catch(function(error) {
-	                    console.log(error);
+	                    //console.log(error);
 	                });
 		          })
 		          .catch(_ => {});

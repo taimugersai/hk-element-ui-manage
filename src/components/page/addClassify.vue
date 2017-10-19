@@ -95,7 +95,7 @@
 			            // }
 			        }
 			    }).catch(function(error) {
-			        console.log(error);
+			        //console.log(error);
 			    });
 			},
 			//获得所有规格
@@ -109,12 +109,12 @@
                           message: `网络异常，获取失败`
                         });
                     } else {
-                    	console.log(res.data.data)
+                    	//console.log(res.data.data)
                     	//self.form[3].opinion=res.data.data
                         
                     }
                 }).catch(function(error) {
-                    console.log(error);
+                    //console.log(error);
                 });
 			},
 			onSubmit(){
@@ -182,7 +182,7 @@
 	                        self.$router.push('/classify')
 	                    }
 	                }).catch(function(error) {
-	                    console.log(error);
+	                    //console.log(error);
 	                });
 				}else{
 					self.$message({

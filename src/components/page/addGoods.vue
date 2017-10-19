@@ -249,7 +249,7 @@
 				        self.formData.classify=res.category_id
 			        }
 			    }).catch(function(error) {
-			        console.log(error);
+			        //console.log(error);
 			    });
 			},
 			//点击添加静态属性按钮
@@ -291,7 +291,7 @@
 	            	fileList.url=fileList.response.data.path
 	            }
             	self.fileList.push(fileList)
-            	console.log(self.fileList)
+            	//console.log(self.fileList)
 		    },
 			//删除图片
 			handleRemove(file, fileList,index) {
@@ -307,6 +307,7 @@
 	        deleteAttribute(index){
 	        	var self = this;
 	        	self.static_attributes.splice(index,1)
+	        	console.log(self.static_attributes)
 	        },
 	        
 			//提交
@@ -341,7 +342,7 @@
 							}
 							static_attributes[self.static_attributes[i].staticAttributesName]=value.join(',')
 						}
-						
+						var value=static_attributes=={}?static_attributes:''
 						var data={
 							category_id:self.formData.classify,
 							name:self.formData.name,
@@ -352,9 +353,9 @@
 							is_recommend:self.formData.isRecommend,
 							banners:banners,
 							content:self.formData.content,
-							static_attributes:static_attributes,
+							static_attributes:value,
 						}
-						console.log(data)
+						//console.log(data)
 						var url='';
 					    if(self.$route.query.id){
 					      url=api.baseUrl+'/goods/'+'update/'+self.id
@@ -378,7 +379,7 @@
 		                        self.$router.push('/goods')
 		                    }
 		                }).catch(function(error) {
-		                    console.log(error);
+		                    //console.log(error);
 		                });
 					}
 				})

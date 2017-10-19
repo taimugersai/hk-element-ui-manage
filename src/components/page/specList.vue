@@ -79,7 +79,7 @@
                         self.total=res.data.data.total
                     }
                 }).catch(function(error) {
-                    console.log(error);
+                    //console.log(error);
                 });
 			},
             //搜索
@@ -89,7 +89,7 @@
 			//编辑行
 			// handleEdit(index, row) {
 			// 	this.$message('编辑第' + (index + 1) + '行');
-   //              console.log(row)
+   //              //console.log(row)
 			// },
 			//删除行
 			handleDelete(row) {
@@ -112,7 +112,7 @@
                         self.getData()
                     }
                 }).catch(function(error) {
-                    console.log(error);
+                    //console.log(error);
 
                 });
 			},

@@ -1,6 +1,6 @@
 <template>
 	<div class="login-wrap">
-		<div class="ms-title">品墨&麻麻香管理系统</div>
+		<div class="ms-title">品默&麻麻香管理系统</div>
 		<div class="ms-login">
 			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
 				<el-form-item prop="username">
@@ -81,7 +81,7 @@
 							
 						});
 					} else {
-						console.log('error submit!!');
+						//console.log('error submit!!');
 						return false;
 					 }
 				});

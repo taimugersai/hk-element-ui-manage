@@ -179,7 +179,7 @@
 
         data.append(this.fileName,fileInput.files[0])
         axios.post(this.uploadUrl,data).then(function(res){
-          console.log(res)
+          //console.log(res)
           if(res.data.data.path) {
             if(!res.data.data.path.match(/^(?:http|ftp|https):\/\//)){
                 res.data.data.path = api.imgUrl+res.data.data.path;
@@ -191,7 +191,7 @@
       /*点击上传图片按钮*/
       imgClick() {
         if(!this.uploadUrl){
-          console.log('no editor uploadUrl');
+          //console.log('no editor uploadUrl');
           return;
         }
         /*内存创建input file*/

@@ -100,7 +100,7 @@
 			//上传图片
 			handleAvatarSuccess(res, file) {
 				var self = this;
-				console.log(res)
+				//console.log(res)
 				if(res.data.path){
 					if(!res.data.path.match(/^(?:http|ftp|https):\/\//)){
 			            res.data.path = api.imgUrl + res.data.path;
@@ -115,15 +115,15 @@
 				}
 			},
 			handleRemove(file, fileList) {
-				console.log(file, fileList);
+				//console.log(file, fileList);
 			},
 			handlePictureCardPreview(file) {
-				console.log(file.url);
+				//console.log(file.url);
 				this.dialogImageUrl = file.url;
 				this.dialogVisible = true;
 			},
 			handleSuccess(file, fileList){
-		    	//console.log(file, fileList);
+		    	////console.log(file, fileList);
 		    	// this.imgList.push(file.data)
 		    	// this.$emit('handleSuccess')
 		    },

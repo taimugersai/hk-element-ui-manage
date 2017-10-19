@@ -79,7 +79,7 @@
                         self.total=res.data.data.total
                     }
                 }).catch(function(error) {
-                    console.log(error);
+                    //console.log(error);
                 });
             },
 			//翻页
@@ -93,7 +93,7 @@
                 // this.$message.error('删除第'+(index+1)+'行');
                 this.$confirm('确认删除？')
                 .then(_ => {
-                    console.log(row)
+                    //console.log(row)
                     let self = this;
                     axios.post(api.baseUrl + self.url+'/destroy/'+row.id,
                         qs.stringify({})
@@ -112,7 +112,7 @@
                             self.getData()
                         }
                     }).catch(function(error) {
-                        console.log(error);
+                        //console.log(error);
                     });
                   })
                 .catch(_ => {});
@@ -124,7 +124,7 @@
                       length = self.multipleSelection.length;
                 let str = '';
                 self.del_list = self.del_list.concat(self.multipleSelection);
-                console.log(length)
+                //console.log(length)
                 if(length==0){
                     self.$message({
                       type: 'info',
@@ -145,7 +145,7 @@
             //勾选
             handleSelectionChange(val) {
                 this.multipleSelection = val;
-                console.log(this.multipleSelection.length)
+                //console.log(this.multipleSelection.length)
             }
 
 

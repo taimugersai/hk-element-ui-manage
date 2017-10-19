@@ -50,7 +50,7 @@
         },
         methods:{
             imageuploaded(res) {
-                console.log(res)
+                //console.log(res)
             },
             handleError(){
                 this.$notify.error({

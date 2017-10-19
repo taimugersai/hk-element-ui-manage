@@ -64,7 +64,7 @@
 			</div>
 			
 			<div class="search_box">
-				<el-button type="primary" icon="search" @click="search" style='margin-top:10px;margin-left:20px;'>搜索</el-button>
+				<el-button type="primary" icon="search" @click="getData" style='margin-top:10px;margin-left:20px;'>搜索</el-button>
 			</div>
 		    
 		    
@@ -222,17 +222,26 @@
                           message: `网络异常，获取失败`
                         });
                     } else {
-                    	console.log(res)
+                    	//console.log(res)
                     	self.store=res.data.data.data
                         
                     }
                 }).catch(function(error) {
-                    console.log(error);
+                    //console.log(error);
                 });
 			},
 			getData() {
 				let self = this;
-                axios.get(api.baseUrl +'/order/'+localStorage.getItem('type')+'?page='+self.cur_page,
+                axios.get(api.baseUrl +'/order/'+localStorage.getItem('type'),
+                	{
+					    params: {
+					    	page:self.cur_page,
+					      	ordered_at:self.ordered_at,
+							out_trade_no:self.out_trade_no,
+							status: self.status,
+							store_id:self.store_id
+					    }
+					  }
                 ).then((res) => {
                     if(res.data.responseCode == 0) {
                         self.$message({
@@ -245,7 +254,7 @@
                         self.total=res.data.data.total
                     }
                 }).catch(function(error) {
-                    console.log(error);
+                    //console.log(error);
                 });
 			},
 			search() {
@@ -271,7 +280,7 @@
                         self.total=res.data.data.total
                     }
                 }).catch(function(error) {
-                    console.log(error);
+                    //console.log(error);
                 });
 			},
 			formatter(row, column) {

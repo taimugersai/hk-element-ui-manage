@@ -1,6 +1,6 @@
 { 
-  "imgUrl":"http://47.92.27.56",
-  "baseUrl": "http://47.92.27.56/api",
+  "imgUrl":"http://120.27.233.70",
+  "baseUrl": "http://120.27.233.70/api",
   "Login": {
     "url": "/getToken/admin_api"
   },

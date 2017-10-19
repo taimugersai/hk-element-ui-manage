@@ -84,7 +84,7 @@
 			             self.form[1].opinion=res
 			        }
 			    }).catch(function(error) {
-			        console.log(error);
+			        //console.log(error);
 			    });
         		return ""
         	}
@@ -113,7 +113,7 @@
 			            });
 			        } else {
 			            res=res.data.data
-			            //console.log(res)
+			            ////console.log(res)
 			            self.form[0].value=res.type;
 			            setTimeout(function(){self.form[1].value=res.model_id;},500)
 			            
@@ -124,7 +124,7 @@
 			            // }
 			        }
 			    }).catch(function(error) {
-			        console.log(error);
+			        //console.log(error);
 			    });
 			},
 			
@@ -176,7 +176,7 @@
 	                        self.$router.push('/banner')
 	                    }
 	                }).catch(function(error) {
-	                    console.log(error);
+	                    //console.log(error);
 	                });
 			    }else{
 			    	self.$message({
