@@ -70,7 +70,7 @@
 			//得到数据
 			getData(){
 				let self = this;
-			    axios.get(api.baseUrl + api.activity.url+'show/'+self.id,
+			    axios.get(api.baseUrl + api.activity.url+self.id,
 			    ).then((res) => {
 			        if(res.data.responseCode == 0) {
 			            self.$message({
@@ -100,7 +100,8 @@
 					title:self.form[0].value,
 					cover:self.form[1].imageUrl,
 					content:self.form[2].value,
-					order:self.form[3].value
+					order:self.form[3].value,
+					brand_id:localStorage.getItem('type')
 				}
 				if(!data.title){
 					self.$message({
@@ -134,11 +135,38 @@
 				//alert(JSON.stringify(data))
 				var url='';
 			    if(self.$route.query.id){
-			      url=api.baseUrl+api.activity.url+'update/'+self.id
+			      url=api.baseUrl+api.activity.url+self.id
+			      if(self.flag){
+				    	self.flag=false
+				    	setTimeout(function(){
+				    		self.flag=true
+				    	},1000)
+				    	axios.put(url,qs.stringify(data)
+		                ).then((res) => {
+		                    if(res.data.responseCode == 0) {
+		                        self.$message({
+		                          type: 'info',
+		                          message: `网络异常，获取失败`
+		                        });
+		                    } else {
+		                    	self.$message({
+		                          type: 'info',
+		                          message: `提交成功`
+		                        });
+		                        self.$router.push('/activity')
+		                    }
+		                }).catch(function(error) {
+		                    //console.log(error);
+		                });
+				    }else{
+				    	self.$message({
+	                      type: 'info',
+	                      message: `请勿重复提交`
+	                    });
+				    }
 			    }else{
-			      url=api.baseUrl + api.activity.url+localStorage.getItem('type')
-			    }
-			    if(self.flag){
+			      url=api.baseUrl + api.activity.url
+			      if(self.flag){
 			    	self.flag=false
 			    	setTimeout(function(){
 			    		self.flag=true
@@ -166,6 +194,8 @@
                       message: `请勿重复提交`
                     });
 			    }
+			    }
+			    
 				
 			}
 

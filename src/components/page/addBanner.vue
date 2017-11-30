@@ -67,11 +67,16 @@
         		var url="" 
         		//url=  self.form[0].value 		
         		if(self.form[0].value=="goods"){
-        			url=api.baseUrl + '/goods/all/'+localStorage.getItem('type')
+        			url=api.baseUrl + '/goods'
         		}else{
-        			url=api.baseUrl + '/activity/all/'+localStorage.getItem('type')
+        			url=api.baseUrl + '/activities'
         		}
         		axios.get(url,
+        			{
+					    params: {
+							brand_id:localStorage.getItem('type')
+					    }
+					  }
 			    ).then((res) => {
 			        if(res.data.responseCode == 0) {
 			            self.$message({
@@ -79,7 +84,7 @@
 			              message: `网络异常，获取失败`
 			            });
 			        } else {
-			            res=res.data.data
+			            res=res.data.data.data
 			             self.form[1].value=res[0].id;
 			             self.form[1].opinion=res
 			        }
@@ -104,7 +109,7 @@
 			//得到数据
 			getData(){
 				let self = this;
-			    axios.get(api.baseUrl + api.banner.url+'show/'+self.id,
+			    axios.get(api.baseUrl + api.banner.url+self.id,
 			    ).then((res) => {
 			        if(res.data.responseCode == 0) {
 			            self.$message({
@@ -135,6 +140,7 @@
 					model_id:self.form[1].value,
 					order:self.form[2].value,
 					cover:self.form[3].imageUrl,
+					brand_id:localStorage.getItem('type')
 					//attributes:self.form[3].value
 				}
 				if(data.order===''){
@@ -154,36 +160,63 @@
 				//alert(JSON.stringify(self.form[3].imageUrl))
 				var url='';
 			    if(self.$route.query.id){
-			      url=api.baseUrl+api.banner.url+'update/'+self.id
+			      url=api.baseUrl+api.banner.url+self.id
+			      if(self.flag){
+				    	self.flag=false;
+				    	setTimeout(function(){self.flag=true},1000)
+				    	axios.put(url,qs.stringify(data)
+		                ).then((res) => {
+		                    if(res.data.responseCode == 0) {
+		                        self.$message({
+		                          type: 'info',
+		                          message: `网络异常，获取失败`
+		                        });
+		                    } else {
+		                    	self.$message({
+		                          type: 'info',
+		                          message: `添加成功`
+		                        });
+		                        self.$router.push('/banner')
+		                    }
+		                }).catch(function(error) {
+		                    //console.log(error);
+		                });
+				    }else{
+				    	self.$message({
+	                      type: 'info',
+	                      message: `请勿重复提交`
+	                    });
+				    }
 			    }else{
-			      url=api.baseUrl + api.banner.url+localStorage.getItem('type')
+			      url=api.baseUrl + api.banner.url
+			      if(self.flag){
+				    	self.flag=false;
+				    	setTimeout(function(){self.flag=true},1000)
+				    	axios.post(url,qs.stringify(data)
+		                ).then((res) => {
+		                    if(res.data.responseCode == 0) {
+		                        self.$message({
+		                          type: 'info',
+		                          message: `网络异常，获取失败`
+		                        });
+		                    } else {
+		                    	self.$message({
+		                          type: 'info',
+		                          message: `添加成功`
+		                        });
+		                        self.$router.push('/banner')
+		                    }
+		                }).catch(function(error) {
+		                    //console.log(error);
+		                });
+				    }else{
+				    	self.$message({
+	                      type: 'info',
+	                      message: `请勿重复提交`
+	                    });
+				    }
 			    }
-			    if(self.flag){
-			    	self.flag=false;
-			    	setTimeout(function(){self.flag=true},1000)
-			    	axios.post(url,qs.stringify(data)
-	                ).then((res) => {
-	                    if(res.data.responseCode == 0) {
-	                        self.$message({
-	                          type: 'info',
-	                          message: `网络异常，获取失败`
-	                        });
-	                    } else {
-	                    	self.$message({
-	                          type: 'info',
-	                          message: `添加成功`
-	                        });
-	                        self.$router.push('/banner')
-	                    }
-	                }).catch(function(error) {
-	                    //console.log(error);
-	                });
-			    }else{
-			    	self.$message({
-                      type: 'info',
-                      message: `请勿重复提交`
-                    });
-			    }
+			    
 				
 			}
 		}

@@ -23,6 +23,12 @@
 					    <el-input v-model="formData.pos_no"></el-input>
 					    <span  style="color:rgb(255, 73, 73)">*请严格按照pos端商品编号填写，填写错误将造成商品无法支付等意外错误</span>
 					  </el-form-item>
+					  <el-form-item label="库存" required>
+					    <el-input type='number' v-model="formData.stock"></el-input>
+					  </el-form-item>
+					  <el-form-item label="排序" required>
+					    <el-input type='number' v-model="formData.order"></el-input>
+					  </el-form-item>
 					  <el-form-item label="轮播图" required>
 					    <el-upload
 						  :action="actionUrl"
@@ -74,6 +80,35 @@
 				                <el-button type="primary" icon="delete" @click="deleteAttribute(index)"></el-button>
 						  </div>
 					  </el-form-item>
+					  <el-form-item label="多选属性" required >
+					  	  <el-button type="primary" icon="plus" @click='addCheckAttributes'></el-button>
+						  <div v-for='(item,index) in check_attributes'  style="margin-top:20px" >
+						  	<el-input v-model="item.checkAttributesName" style='width:80px'></el-input>
+								<el-tag
+				                    :key="tag"
+				                    type='primary'
+				                    v-for="tag in item.dynamicTags"
+				                    :closable="true"
+				                    :close-transition="false"
+				                    @close="handleCheckClose(tag,index)"
+				                    style='margin-right:10px'
+				                  >
+				                  {{tag}}
+				                  </el-tag>
+				                  <el-input
+				                    class="input-new-tag"
+				                    v-if="item.inputVisible"
+				                    v-model="item.inputValue"
+				                    v-ref="saveTagInput"
+				                    size="mini"
+				                    @keyup.enter.native="handleCheckInputConfirm(index)"
+				                    @blur="handleCheckInputConfirm(index)"
+				                  >
+				                  </el-input>
+				                  <el-button v-else class="button-new-tag" size="small" @click="showCheckInput(index)">添加新属性</el-button>
+				                <el-button type="primary" icon="delete" @click="deleteCheckAttribute(index)"></el-button>
+						  </div>
+					  </el-form-item>
 					  <el-form-item label="是否置顶" required>
 					    <el-radio-group v-model="formData.ifTop">
 					      <el-radio :label="1">是</el-radio>
@@ -115,6 +150,7 @@
 					name:"",
 					price:0,
 					pos_no:"",
+					stock:0,
 					desc:'',
 					ifTop:1,
 		        	isRecommend:1,
@@ -137,8 +173,8 @@
 		        dynamicTags: [],
 		        inputVisible: false,
 		        inputValue: '',
-		        static_attributes:[
-		        ],
+		        static_attributes:[],
+		        check_attributes:[],
 		        specsList:[],
 				specs:[],
 
@@ -189,7 +225,12 @@
    			//获得所有分类
 			getAllClass() {
 				let self = this;
-                axios.get(api.baseUrl + api.category.url+'all/'+localStorage.getItem('type'),
+                 axios.get(api.baseUrl +'/categories',
+					{
+					    params: {
+					      	brand_id: localStorage.getItem('type')
+					    }
+					  }
                 ).then((res) => {
                     if(res.data.responseCode == 0) {
                         self.$message({
@@ -210,7 +251,7 @@
 			//得到并付给商品原先的值
 			getData(){
 				let self = this;
-			    axios.get(api.baseUrl + '/goods/'+'show/'+self.id,
+			    axios.get(api.baseUrl + '/goods/'+self.id,
 			    ).then((res) => {
 			        if(res.data.responseCode == 0) {
 			            self.$message({
@@ -221,11 +262,13 @@
 			            res=res.data.data
 			            self.formData.name=res.name
 			            self.formData.pos_no=res.pos_no
+			            self.formData.stock=res.stock
 			            self.formData.price=res.price
 			            self.formData.content=res.content
 			            self.formData.ifTop=res.is_top
 			            self.formData.isRecommend=res.is_recommend
 			            self.formData.desc=res.desc 
+			            self.formData.order = res.order
 			            self.formData.classify=res.category_id
 			            //设置轮播图
 			            var imgList=res.banners.split(',')
@@ -263,11 +306,31 @@
 	        	};
 	        	self.static_attributes.push(data)
 	        },
+	        //点击添加多选属性按钮
+	        addCheckAttributes(){
+	        	var self=this;
+	        	var data ={
+	        		checkAttributesName:'',
+	        		dynamicTags:[],
+	        		inputVisible: false,
+		        	inputValue: '',
+	        	};
+	        	self.check_attributes.push(data)
+	        },
 	        //点击添加属性标签显示输入框
 		    showInput(index) {
 		    	var self=this
 		      this.static_attributes[index].inputVisible = true;
 		      this.static_attributes.splice(index,1,this.static_attributes[index])
+		      this.$nextTick(_ => {
+		      	 //self.$refs.saveTagInput[index].$refs.input.focus();
+		      });
+		    },
+		    //点击添加属性标签显示输入框
+		    showCheckInput(index) {
+		    	var self=this
+		      this.check_attributes[index].inputVisible = true;
+		      this.check_attributes.splice(index,1,this.check_attributes[index])
 		      this.$nextTick(_ => {
 		      	 //self.$refs.saveTagInput[index].$refs.input.focus();
 		      });
@@ -309,7 +372,12 @@
 	        	self.static_attributes.splice(index,1)
 	        	console.log(self.static_attributes)
 	        },
-	        
+	        //删除静态属性
+	        deleteCheckAttribute(index){
+	        	var self = this;
+	        	self.check_attributes.splice(index,1)
+	        	console.log(self.static_attributes)
+	        },
 			//提交
 			onSubmit(formData){
 				let self = this;
@@ -349,45 +417,64 @@
 							pos_no:self.formData.pos_no,
 							price:self.formData.price,
 							desc:self.formData.desc,
+							stock:self.formData.stock,
+							order:self.formData.order,
 							is_top:self.formData.ifTop,
 							is_recommend:self.formData.isRecommend,
 							banners:banners,
 							content:self.formData.content,
 							static_attributes:value,
+							brand_id:localStorage.getItem('type')
 						}
 						//console.log(data)
 						var url='';
 					    if(self.$route.query.id){
-					      url=api.baseUrl+'/goods/'+'update/'+self.id
+					      url=api.baseUrl+'/goods/'+self.id;
+					      axios.put(url,qs.stringify(data)
+			                ).then((res) => {
+			                     self.callBack(res)
+			                }).catch(function(error) {
+			                    //console.log(error);
+			                });
 					    }else{
-					      url=api.baseUrl + '/goods/'+localStorage.getItem('type')
+					      url=api.baseUrl + '/goods/'
+					      axios.post(url,qs.stringify(data)
+			                ).then((res) => {
+			                    self.callBack(res)
+			                }).catch(function(error) {
+			                    //console.log(error);
+			                });
 					    }
 					   
 					    
-						axios.post(url,qs.stringify(data)
-		                ).then((res) => {
-		                    if(res.data.responseCode == 0) {
-		                        self.$message({
-		                          type: 'info',
-		                          message: `网络异常，获取失败`
-		                        });
-		                    } else {
-		                    	self.$message({
-		                          type: 'info',
-		                          message: `提交成功`
-		                        });
-		                        self.$router.push('/goods')
-		                    }
-		                }).catch(function(error) {
-		                    //console.log(error);
-		                });
+						
 					}
 				})
 				
 			},
+			// 请求回掉函数
+			callBack(res){
+				var self = this;
+				if(res.data.responseCode == 0) {
+                    self.$message({
+                      type: 'info',
+                      message: `网络异常，获取失败`
+                    });
+                } else {
+                	self.$message({
+                      type: 'info',
+                      message: `提交成功`
+                    });
+                    self.$router.push('/goods')
+                }
+			},
 			//标签删除属性
 		    handleClose(tag,index) {
 		      this.static_attributes[index].dynamicTags.splice(this.static_attributes[index].dynamicTags.indexOf(tag), 1);
+		    },
+		    //多选标签删除属性
+		    handleCheckClose(tag,index) {
+		      this.check_attributes[index].dynamicTags.splice(this.check_attributes[index].dynamicTags.indexOf(tag), 1);
 		    },
 		   
 		    //标签新增属性
@@ -398,6 +485,15 @@
 		      }
 		      this.static_attributes[index].inputVisible = false;
 		      this.static_attributes[index].inputValue = '';
+		    },
+		    //多选标签新增属性
+		    handleCheckInputConfirm(index) {
+		      let inputValue = this.check_attributes[index].inputValue;
+		      if (inputValue) {
+		        this.check_attributes[index].dynamicTags.push(inputValue);
+		      }
+		      this.check_attributes[index].inputVisible = false;
+		      this.check_attributes[index].inputValue = '';
 		    }
 		}
 	}

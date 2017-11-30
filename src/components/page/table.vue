@@ -66,7 +66,13 @@
             //获得数据
             getData(){
                 let self = this;
-                axios.get(api.baseUrl + self.url+'/'+localStorage.getItem('type')+'?page='+self.cur_page,
+                axios.get(api.baseUrl + self.url,
+                {
+                    params: {
+                        brand_id: localStorage.getItem('type'),
+                        page:self.cur_page
+                    }
+                }
                 ).then((res) => {
                     if(res.data.responseCode == 0) {
                         self.$message({
@@ -74,9 +80,14 @@
                           message: `网络异常，获取失败`
                         });
                     } else {
-                        self.data=res.data.data.data
-                        self.size=res.data.data.per_page
-                        self.total=res.data.data.total
+                        if(res.data.data.total){
+                            self.data=res.data.data.data
+                            self.size=res.data.data.per_page
+                            self.total=res.data.data.total
+                        }else{
+                            self.data=res.data.data
+                        }
+                        
                     }
                 }).catch(function(error) {
                     //console.log(error);
@@ -95,8 +106,7 @@
                 .then(_ => {
                     //console.log(row)
                     let self = this;
-                    axios.post(api.baseUrl + self.url+'/destroy/'+row.id,
-                        qs.stringify({})
+                    axios.delete(api.baseUrl + self.url+'/'+row.id,
                     ).then((res) => {
                         if(res.data.responseCode == 0) {
                             self.$message({

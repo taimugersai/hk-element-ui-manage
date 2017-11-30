@@ -60,6 +60,10 @@
 			</el-table-column>
 			<el-table-column prop="price" label="价格" width="120">
 			</el-table-column>
+			<el-table-column prop="stock" label="库存" width="120">
+			</el-table-column>
+			<el-table-column prop="order" label="排序" width="120">
+			</el-table-column>
 			<!-- <el-table-column prop="desc" label="商品描述" >
 			</el-table-column> -->
 			<el-table-column prop="pos_no" label="对应pos" width="100">
@@ -123,7 +127,15 @@
 			},
 			goodsSearch(){
 				let self = this;
-                axios.get(api.baseUrl +'/goods/'+localStorage.getItem('type')+'?page=&search='+this.searchData.search+'&category_id='+this.searchData.category_id,
+                axios.get(api.baseUrl +'/goods/',
+                	{
+					    params: {
+					      	page:'',
+							search:self.searchData.search,
+							category_id: self.searchData.category_id,
+							brand_id:localStorage.getItem('type')
+					    }
+					  }
                 ).then((res) => {
                     if(res.data.responseCode == 0) {
                         self.$message({
@@ -141,7 +153,12 @@
 			},
 			getAllCategory(){
 				let self = this;
-                axios.get(api.baseUrl +'/category/all/'+localStorage.getItem('type'),
+                axios.get(api.baseUrl +'/categories',
+					{
+					    params: {
+					      	brand_id: localStorage.getItem('type')
+					    }
+					  }
                 ).then((res) => {
                     if(res.data.responseCode == 0) {
                         self.$message({
@@ -155,17 +172,18 @@
                         // self.total=res.data.data.total;
                     }
                 }).catch(function(error) {
-                    //console.log(error);
+                    console.log(error);
                 });
 			},
 			getData() {
 				let self = this;
-                axios.get(api.baseUrl +'/goods/'+localStorage.getItem('type'),
+                axios.get(api.baseUrl +'/goods/',
                 	{
 					    params: {
 					      	page:self.cur_page,
 							search:self.searchData.search,
 							category_id: self.searchData.category_id,
+							brand_id:localStorage.getItem('type')
 					    }
 					  }
                 ).then((res) => {
@@ -190,8 +208,7 @@
 				let self = this;
 				this.$confirm('确认删除？')
 		          .then(_ => {
-		            axios.post(api.baseUrl + '/goods/'+'destroy/'+row.id,
-	                    qs.stringify({})
+		            axios.delete(api.baseUrl + '/goods/'+row.id,
 	                ).then((res) => {
 	                    if(res.data.responseCode == 0) {
 	                        self.$message({

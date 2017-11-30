@@ -1,6 +1,6 @@
 { 
-  "imgUrl":"http://120.27.233.70",
-  "baseUrl": "http://120.27.233.70/api",
+  "imgUrl":"http://192.168.1.130",
+  "baseUrl": "http://192.168.1.130/api/admin",
   "Login": {
     "url": "/getToken/admin_api"
   },
@@ -11,19 +11,19 @@
     "url": "/attribute/show/"
   },
   "category":{
-  	"url": "/category/"
+  	"url": "/categories/"
   },
   "store":{
   	"url": "/store/"
   },
   "activity":{
-    "url":"/activity/"
+    "url":"/activities/"
   },
   "member":{
-    "url":"/user"
+    "url":"/users"
   },
   "banner":{
-    "url":"/banner/"
+    "url":"/banners/"
   }
   
 }

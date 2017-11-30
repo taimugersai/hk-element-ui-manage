@@ -18,7 +18,7 @@
             return {
                  tableData:[{title:"ID",data:"id",width:'150'},{title:"分类名",data:"name"},{title:"分类描述",data:"desc"},{title:"封面图",data:"cover"},{title:'分类排序',data:'order'}],
                 router:"addClassify",
-                url:"/category",
+                url:"/categories",
                 size:0,
                 total:0
             }

@@ -24,6 +24,16 @@
         data() {
             return {
                 items: [
+                 {
+                        icon: 'el-icon-setting',
+                        index: 'order',
+                        title: '订单管理'
+                    },
+                    {
+                        icon: 'el-icon-setting',
+                        index: 'bigOrder',
+                        title: '兑换管理'
+                    },
                     {
                         icon: 'el-icon-setting',
                         index: 'goods',
@@ -50,6 +60,26 @@
                     },
                     {
                         icon: 'el-icon-setting',
+                        index: 'store',
+                        title: '门店管理',
+                        subs: [
+                            {
+                                index: 'store',
+                                title: '门店列表'
+                            },
+                            {
+                                index: 'addStore',
+                                title: '添加门店'
+                            },
+                        ]
+                    },
+                    {
+                        icon: 'el-icon-setting',
+                        index: 'member',
+                        title: '会员管理'
+                    },
+                   {
+                        icon: 'el-icon-setting',
                         index: 'app',
                         title: 'app配置',
                         subs: [
@@ -71,35 +101,6 @@
                             },
                             
                         ]
-                    },{
-                        icon: 'el-icon-setting',
-                        index: 'store',
-                        title: '门店管理',
-                        subs: [
-                            {
-                                index: 'store',
-                                title: '门店列表'
-                            },
-                            {
-                                index: 'addStore',
-                                title: '添加门店'
-                            },
-                        ]
-                    },
-                    {
-                        icon: 'el-icon-setting',
-                        index: 'member',
-                        title: '会员管理'
-                    },
-                    {
-                        icon: 'el-icon-setting',
-                        index: 'order',
-                        title: '订单管理'
-                    },
-                    {
-                        icon: 'el-icon-setting',
-                        index: 'bigOrder',
-                        title: '兑换管理'
                     },
                      {
                         icon: 'el-icon-setting',

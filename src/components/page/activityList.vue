@@ -18,7 +18,7 @@
             return {
                  tableData:[{title:"ID",data:"id",width:'150'},{title:"活动头图",data:"cover"},{title:"活动名称",data:"title"}],
                 router:"addActivity",
-                url:"/activity",
+                url:"/activities",
                 size:0,
                 total:0
             }

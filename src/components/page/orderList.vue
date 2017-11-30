@@ -167,7 +167,7 @@
 
 
 				options: [{
-		          value: '',
+		          value: 'all',
 		          label: '全部'
 		        }, {
 		          value: '0',
@@ -199,7 +199,7 @@
 		        	start:'',
 		        	end:''
 		        },
-		        status:"",
+		        status:"all",
 		        store_id:''
 			}
 		},
@@ -214,7 +214,13 @@
 			},
 			getStore(){
 				let self = this;
-                axios.get(api.baseUrl +'/store/'+localStorage.getItem('type'),
+                axios.get(api.baseUrl +'/stores',
+                	{
+					    params: {
+					    	
+							brand_id:localStorage.getItem('type')
+					    }
+					  }
                 ).then((res) => {
                     if(res.data.responseCode == 0) {
                         self.$message({
@@ -223,7 +229,7 @@
                         });
                     } else {
                     	//console.log(res)
-                    	self.store=res.data.data.data
+                    	self.store=res.data.data
                         
                     }
                 }).catch(function(error) {
@@ -232,14 +238,16 @@
 			},
 			getData() {
 				let self = this;
-                axios.get(api.baseUrl +'/order/'+localStorage.getItem('type'),
+				
+                axios.get(api.baseUrl +'/orders',
                 	{
 					    params: {
 					    	page:self.cur_page,
 					      	ordered_at:self.ordered_at,
 							out_trade_no:self.out_trade_no,
 							status: self.status,
-							store_id:self.store_id
+						 	store_id:self.store_id,
+							brand_id:localStorage.getItem('type')
 					    }
 					  }
                 ).then((res) => {

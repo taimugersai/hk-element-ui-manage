@@ -176,7 +176,7 @@
 			 //得到数据
 		    getData() {
 		      let self = this;
-		      axios.get(api.baseUrl + '/store/show/'+self.id,
+		      axios.get(api.baseUrl + '/stores/'+self.id,
 		      ).then((res) => {
 		          if(res.data.responseCode == 0) {
 		              self.$message({
@@ -213,6 +213,7 @@
 		      	address:self.form[5].value,
 		      	lng	:self.form[6].value,
 		      	lat	:self.form[7].value,
+				brand_id:localStorage.getItem('type')
 		      }
 		      	if(!data.display_name){
 					self.$message({
@@ -265,14 +266,14 @@
 	                });
 	                return
 				}
-				var regphone =/^0?1[3|4|5|8][0-9]\d{8}$/
-			      if(regphone.test(data.tel)==false){
-			        self.$message({
-	                  type: 'info',
-	                  message: `手机格式不正确`
-	                });
-			        return 
-			      }
+				// var regphone =/^0?1[3|4|5|8][0-9]\d{8}$/
+			 //      if(regphone.test(data.tel)==false){
+			 //        self.$message({
+	   //                type: 'info',
+	   //                message: `手机格式不正确`
+	   //              });
+			 //        return 
+			 //      }
 				 if(!data.address){
 					self.$message({
 	                  type: 'info',
@@ -295,36 +296,63 @@
 
 
 		      if(self.$route.query.id){
-		        url=api.baseUrl+'/store/update/'+self.id
-		      }else{
-		        url=api.baseUrl+'/store/'+localStorage.getItem('type')
-		      }
-		      if(self.flag){
-		      	self.flag=false
-		      	setTimeout(function(){self.flag=true},1000)
-		      	axios.post(url,
-			        qs.stringify(data)
-			      ).then((res) => {
-			        //console.log(JSON.stringify(res));
-			        if(res.data.responseCode==1){
+		        url=api.baseUrl+'/stores/'+self.id
+		        if(self.flag){
+			      	self.flag=false
+			      	setTimeout(function(){self.flag=true},1000)
+			      	axios.put(url,
+				        qs.stringify(data)
+				      ).then((res) => {
+				        //console.log(JSON.stringify(res));
+				        if(res.data.responseCode==1){
 
-			          self.$message({
+				          self.$message({
+				            type: 'info',
+				            message: `添加成功`
+				          });
+				          self.$router.push('/store')
+
+				          
+				        }
+				      }).catch(function(error) {
+				        //console.log(error);
+				      });
+			      }else{
+		      		self.$message({
 			            type: 'info',
-			            message: `添加成功`
+			            message: `请勿重复提交`
 			          });
-			          self.$router.push('/store')
-
-			          
-			        }
-			      }).catch(function(error) {
-			        //console.log(error);
-			      });
+			      }
 		      }else{
-	      		self.$message({
-		            type: 'info',
-		            message: `请勿重复提交`
-		          });
+		        url=api.baseUrl+'/stores/'
+		        if(self.flag){
+			      	self.flag=false
+			      	setTimeout(function(){self.flag=true},1000)
+			      	axios.post(url,
+				        qs.stringify(data)
+				      ).then((res) => {
+				        //console.log(JSON.stringify(res));
+				        if(res.data.responseCode==1){
+
+				          self.$message({
+				            type: 'info',
+				            message: `添加成功`
+				          });
+				          self.$router.push('/store')
+
+				          
+				        }
+				      }).catch(function(error) {
+				        //console.log(error);
+				      });
+			      }else{
+		      		self.$message({
+			            type: 'info',
+			            message: `请勿重复提交`
+			          });
+			      }
 		      }
+		      
 		      
 		    },
 		    clickMap(e){

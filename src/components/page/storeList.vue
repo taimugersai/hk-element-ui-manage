@@ -19,7 +19,7 @@
             return {
                  tableData:[{title:"ID",data:"id",width:'150'},{title:"门店名称",data:"display_name"},{title:"账号信息",data:"name"},{title:"联系电话",data:"tel"},{title:'地址',data:'address'}],
                 router:"addStore",
-                url:"/store",
+                url:"/stores",
                 size:0,
                 total:0
             }

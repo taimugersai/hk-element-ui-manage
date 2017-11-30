@@ -77,7 +77,7 @@
 			//得到数据
 			getData(){
 				let self = this;
-			    axios.get(api.baseUrl + api.category.url+'show/'+self.id,
+			    axios.get(api.baseUrl + api.category.url+self.id,
 			    ).then((res) => {
 			        if(res.data.responseCode == 0) {
 			            self.$message({
@@ -124,6 +124,7 @@
 					desc:self.form[1].value,
 					order:self.form[2].value,
 					cover:self.form[3].imageUrl,
+					brand_id:localStorage.getItem('type')
 					//attributes:self.form[3].value
 				}
 
@@ -163,27 +164,45 @@
 					var url='';
 
 				    if(self.$route.query.id){
-				      url=api.baseUrl+api.category.url+'update/'+self.id
+				      url=api.baseUrl+api.category.url+self.id
+				      axios.put(url,qs.stringify(data)
+		                ).then((res) => {
+		                    if(res.data.responseCode == 0) {
+		                        self.$message({
+		                          type: 'info',
+		                          message: `网络异常，获取失败`
+		                        });
+		                    } else {
+		                    	self.$message({
+		                          type: 'info',
+		                          message: `添加成功`
+		                        });
+		                        self.$router.push('/classify')
+		                    }
+		                }).catch(function(error) {
+		                    //console.log(error);
+		                });
 				    }else{
-				      url=api.baseUrl + api.category.url+localStorage.getItem('type')
+				      url=api.baseUrl + api.category.url
+				      axios.post(url,qs.stringify(data)
+		                ).then((res) => {
+		                    if(res.data.responseCode == 0) {
+		                        self.$message({
+		                          type: 'info',
+		                          message: `网络异常，获取失败`
+		                        });
+		                    } else {
+		                    	self.$message({
+		                          type: 'info',
+		                          message: `添加成功`
+		                        });
+		                        self.$router.push('/classify')
+		                    }
+		                }).catch(function(error) {
+		                    //console.log(error);
+		                });
 				    }
-					axios.post(url,qs.stringify(data)
-	                ).then((res) => {
-	                    if(res.data.responseCode == 0) {
-	                        self.$message({
-	                          type: 'info',
-	                          message: `网络异常，获取失败`
-	                        });
-	                    } else {
-	                    	self.$message({
-	                          type: 'info',
-	                          message: `添加成功`
-	                        });
-	                        self.$router.push('/classify')
-	                    }
-	                }).catch(function(error) {
-	                    //console.log(error);
-	                });
+					
 				}else{
 					self.$message({
                       type: 'info',

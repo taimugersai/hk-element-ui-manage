@@ -80,6 +80,8 @@
 				<el-table :data="goods" border style="width: 100%" ref="multipleTable"  class="firstTable">
 					<el-table-column prop="name" label="商品">
 					</el-table-column>
+					<el-table-column prop="pivot.attribute" label="商品属性">
+					</el-table-column>
 					<el-table-column prop="pivot.number" label="数量">
 					</el-table-column>
 					<el-table-column prop="price" label="单价">
@@ -191,7 +193,7 @@
 
 				let self = this;
 
-                axios.get(api.baseUrl +'/order/detail/'+self.$route.query.id,
+                axios.get(api.baseUrl +'/orders/'+self.$route.query.id,
                 ).then((res) => {
                     if(res.data.responseCode == 0) {
                         self.$message({
@@ -212,7 +214,7 @@
 			},
 			onSubmit() {
 				let self = this;
-                axios.post(api.baseUrl +'/order/modify/'+self.$route.query.id,
+                axios.put(api.baseUrl +'/orders/'+self.$route.query.id,
                 	qs.stringify({
 						status: self.changestatus,
 						remark: self.remark
