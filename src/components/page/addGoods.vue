@@ -289,6 +289,16 @@
 				           		}
 				               self.static_attributes.push(item);
 				        }
+				        //设置多属性
+			            for (var p2 in res.notes) {
+				           if (res.notes.hasOwnProperty(p2))
+				           		var array=res.notes[p2].split(',')
+				           		var item={
+				           			checkAttributesName:p2,
+				           			dynamicTags:array
+				           		}
+				               self.check_attributes.push(item);
+				        }
 				        self.formData.classify=res.category_id
 			        }
 			    }).catch(function(error) {
@@ -404,13 +414,28 @@
 						//静态属性
 						var static_attributes={}
 						for(var i=0;i<self.static_attributes.length;i++){
-							var value=[]
+							var static_value=[]
 							for(var j=0;j<self.static_attributes[i].dynamicTags.length;j++){
-								value.push(self.static_attributes[i].dynamicTags[j])
+								static_value.push(self.static_attributes[i].dynamicTags[j])
 							}
-							static_attributes[self.static_attributes[i].staticAttributesName]=value.join(',')
+							
+							static_attributes[self.static_attributes[i].staticAttributesName]=static_value.join(',')
 						}
-						var value=static_attributes=={}?static_attributes:''
+						var value=static_attributes={}?static_attributes:''
+
+						//多选属性
+						var check_attributes={}
+						for(var i=0;i<self.check_attributes.length;i++){
+							var check_value=[]
+							for(var j=0;j<self.check_attributes[i].dynamicTags.length;j++){
+								check_value.push(self.check_attributes[i].dynamicTags[j])
+							}
+
+							check_attributes[self.check_attributes[i].checkAttributesName]=check_value.join(',')
+						}
+						
+						var checkValue=check_attributes={}?check_attributes:'';
+						
 						var data={
 							category_id:self.formData.classify,
 							name:self.formData.name,
@@ -424,9 +449,11 @@
 							banners:banners,
 							content:self.formData.content,
 							static_attributes:value,
+							notes:checkValue,
 							brand_id:localStorage.getItem('type')
 						}
-						//console.log(data)
+						console.log(data)
+
 						var url='';
 					    if(self.$route.query.id){
 					      url=api.baseUrl+'/goods/'+self.id;
