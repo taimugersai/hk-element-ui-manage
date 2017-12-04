@@ -1,6 +1,6 @@
 <template>
     <div class="sidebar">
-        <el-menu :default-active="onRoutes" class="el-menu-vertical-demo" theme="dark" unique-opened router>
+        <el-menu :default-active="onRoutes" class="el-menu-vertical-demo" theme="dark" unique-opened router background-color="#242f42"  text-color="#fff" active-text-color="#409EFF">
             <template v-for="item in items">
                 <template v-if="item.subs">
                     <el-submenu :index="item.index">
@@ -24,18 +24,23 @@
         data() {
             return {
                 items: [
-                 {
-                        icon: 'el-icon-setting',
+                    {
+                        icon: 'el-icon-edit-outline',
+                        index: 'console',
+                        title: '控制台'
+                    },
+                    {
+                        icon: 'el-icon-tickets',
                         index: 'order',
                         title: '订单管理'
                     },
                     {
-                        icon: 'el-icon-setting',
+                        icon: 'el-icon-sold-out',
                         index: 'bigOrder',
                         title: '兑换管理'
                     },
                     {
-                        icon: 'el-icon-setting',
+                        icon: 'el-icon-goods',
                         index: 'goods',
                         title: '商品管理',
                         subs: [
@@ -59,7 +64,7 @@
                         ]
                     },
                     {
-                        icon: 'el-icon-setting',
+                        icon: 'el-icon-location-outline',
                         index: 'store',
                         title: '门店管理',
                         subs: [
@@ -74,12 +79,12 @@
                         ]
                     },
                     {
-                        icon: 'el-icon-setting',
+                        icon: 'el-icon-service',
                         index: 'member',
                         title: '会员管理'
                     },
                    {
-                        icon: 'el-icon-setting',
+                        icon: 'el-icon-star-off',
                         index: 'app',
                         title: 'app配置',
                         subs: [

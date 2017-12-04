@@ -13,26 +13,20 @@
 				<el-input v-model="out_trade_no" placeholder="输入订单号" class="handle-input mr10" style='width:200px'></el-input>
 			</div>
 			<div class="search_box">
-				<span style='margin-left:10px;margin-right:10px'>开始时间:</span>
-			    <el-date-picker
-			      v-model="ordered_at.start"
-			      type="datetime"
-			      placeholder="选择日期时间"
-			      align="right"
-			      :picker-options="pickerOptions1">
-			    </el-date-picker>
-			</div>
+                <span style='margin-left:10px;margin-right:10px'>选择时间:</span>
+                 <el-date-picker
+                  v-model="ordered_at"
+                  type="daterange"
+                  align="right"
+                  unlink-panels
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  value-format='yyyy-MM-dd'
 
-			<div class="search_box">
-				<span style='margin-left:10px;margin-right:10px'>结束时间:</span>
-			    <el-date-picker
-			      v-model="ordered_at.end"
-			      type="datetime"
-			      placeholder="选择日期时间"
-			      align="right"
-			      :picker-options="pickerOptions1">
-			    </el-date-picker>
-			</div>
+                  :picker-options="pickerOptions2">
+                </el-date-picker>
+            </div>
 
 			<div class="search_box">
 				<span style='margin-left:10px;margin-right:10px'>订单状态:</span>
@@ -129,25 +123,30 @@
 				is_search: false,
 
 
-				pickerOptions1: {
+				pickerOptions2: {
 		          shortcuts: [{
-		            text: '今天',
+		            text: '最近一周',
 		            onClick(picker) {
-		              picker.$emit('pick', new Date());
+		              const end = new Date();
+		              const start = new Date();
+		              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+		              picker.$emit('pick', [start, end]);
 		            }
 		          }, {
-		            text: '昨天',
+		            text: '最近一个月',
 		            onClick(picker) {
-		              const date = new Date();
-		              date.setTime(date.getTime() - 3600 * 1000 * 24);
-		              picker.$emit('pick', date);
+		              const end = new Date();
+		              const start = new Date();
+		              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+		              picker.$emit('pick', [start, end]);
 		            }
 		          }, {
-		            text: '一周前',
+		            text: '最近三个月',
 		            onClick(picker) {
-		              const date = new Date();
-		              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-		              picker.$emit('pick', date);
+		              const end = new Date();
+		              const start = new Date();
+		              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+		              picker.$emit('pick', [start, end]);
 		            }
 		          }]
 		        },
@@ -182,10 +181,7 @@
 
 
 		        out_trade_no:'',
-		        ordered_at:{
-		        	start:'',
-		        	end:''
-		        },
+		        ordered_at:'',
 		        status:"all",
 		        store_id:''
 			}
@@ -225,10 +221,16 @@
 			},
 			getData() {
 				let self = this;
+				var time = String(self.ordered_at)
+                if(time.split(',')[1]){
+                  var date_range=time.split(',')[0]+'/'+time.split(',')[1]
+                }else{
+                   var date_range=""
+                }
                 axios.get(api.baseUrl +'/bigOrders',
                 	{
 					    params: {
-					      	ordered_at:self.ordered_at,
+					      	date_range:date_range,
 							search:self.out_trade_no,
 							status: self.status,
 							store_id:self.store_id,

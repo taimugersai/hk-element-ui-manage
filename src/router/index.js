@@ -14,7 +14,11 @@ export default new Router({
             children:[
                 {
                     path: '/',
-                    component: resolve => require(['../components/page/goodsList.vue'], resolve)
+                    component: resolve => require(['../components/page/console.vue'], resolve)
+                },
+                {
+                    path: '/console',
+                    component: resolve => require(['../components/page/console.vue'], resolve)
                 },
                 {
                     path: '/classify',

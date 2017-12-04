@@ -13,39 +13,43 @@
 				<el-table :data="tableData" border style="width: 100%" ref="multipleTable"  class="firstTable">
 					<el-table-column prop="id" label="订单ID" width="100">
 					</el-table-column>
-					<el-table-column prop="out_trade_no" label="订单号" >
+					<el-table-column prop="out_trade_no" label="订单号" width="200">
 					</el-table-column>
-					<el-table-column prop="receive_info" label="会员">
+					<el-table-column prop="receive_info" label="会员" width="200">
 						<template scope='scope'>
 							<p >{{scope.row.receive_info.split('/')[0]}}</p>
 						</template>
 					</el-table-column>
-					<el-table-column prop="receive_info" label="电话">
+					<el-table-column prop="receive_info" label="电话" width="200">
 						<template scope='scope'>
 							<p >{{scope.row.receive_info.split('/')[1]}}</p>
 						</template>
 					</el-table-column>
-					<el-table-column prop="actual_fee" label="实付">
+					<el-table-column prop="actual_fee" label="实付" width="100">
 					</el-table-column>
-					<el-table-column prop="status" label="订单状态">
+					<el-table-column prop="status" label="订单状态" width="100">
 						<template scope='scope'>
 							<p v-if='scope.row.status==0' style="color:#F7BA2A">待付款</p>
 							<p v-if='scope.row.status==1' style="color:#20A0FF">已付款</p>
-							<p v-if='scope.row.status==2' style="color:#20A0FF">配送中</p>
-							<p v-if='scope.row.status==3' style="color:#13CE66">配送完成</p>
-							<p v-if='scope.row.status==4' style="color:#13CE66">确认收货</p>
-							<p v-if='scope.row.status==5' style="color:#F7BA2A">申请退款</p>
-							<p v-if='scope.row.status==6' style="color:#FF4949">已退款</p>
+							<p v-if='scope.row.status==2' style="color:#20A0FF">已接单</p>
+							<p v-if='scope.row.status==3' style="color:#20A0FF">配送中</p>
+							<p v-if='scope.row.status==4' style="color:#13CE66">配送完成</p>
+							<p v-if='scope.row.status==5' style="color:#13CE66">确认收货</p>
+							<p v-if='scope.row.status==6' style="color:#F7BA2A">申请退款</p>
+							<p v-if='scope.row.status==7' style="color:#FF4949">已退款</p>
 						</template>
 					</el-table-column>
-					<el-table-column prop="ordered_at" label="下单时间">
+					<el-table-column prop="ordered_at" label="下单时间" width="300">
 					</el-table-column>
-					<el-table-column prop="price" label="支付方式">
+					<el-table-column prop="price" label="支付方式" width="100">
 						<template scope='scope'>
 							<p v-if='scope.row.payment=="alipay"'>支付宝</p>
 							<p v-if='scope.row.payment=="weixin"'>微信</p>
 							<p v-if='scope.row.payment=="会员余额"'>会员余额</p>
 						</template>
+					</el-table-column>
+					<el-table-column prop="discount_info" label="折扣说明">
+						
 					</el-table-column>
 				</el-table>
 			</el-row>
@@ -157,26 +161,26 @@
 		        options: [{
 		          value: '',
 		          label: '全部'
-		        }, {
-		          value: '0',
-		          label: '待付款'
-		        }, {
+		        },  {
 		          value: '1',
 		          label: '已付款'
-		        }, {
+		        },  {
 		          value: '2',
+		          label: '已接单'
+		        },{
+		          value: '3',
 		          label: '配送中'
 		        }, {
-		          value: '3',
+		          value: '4',
 		          label: '配送完成'
 		        }, {
-		          value: '4',
+		          value: '5',
 		          label: '确认收货'
 		        }, {
-		          value: '5',
+		          value: '6',
 		          label: '申请退款'
 		        }, {
-		          value: '6',
+		          value: '7',
 		          label: '已退款'
 		        }],
 
