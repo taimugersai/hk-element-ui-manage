@@ -1,20 +1,24 @@
 <template>
 	<div class="table">
+		<!-- 面包屑 -->
 		<div class="crumbs">
 			<el-breadcrumb separator="/">
 				<el-breadcrumb-item><i class="el-icon-menu"></i> 商品管理</el-breadcrumb-item>
 				<el-breadcrumb-item> 商品列表</el-breadcrumb-item>
 			</el-breadcrumb>
 		</div>
-
+		<!-- 操作与搜索框 -->
 		<div class="handle-box">
+			<!-- 批量删除 -->
 			<div class="search_box">
 				<el-button type="warning" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
 			</div>
+			<!-- 搜索名 -->
 			<div class="search_box">
 				<span>商品搜索：</span>
 				<el-input v-model="searchData.search" placeholder="请输入商品名称或编号" class="handle-input mr10"></el-input>
 			</div>
+			<!-- 分类 -->
 			<div class="search_box">
 				<span>分类选择：</span>
 				<el-select v-model="searchData.category_id" placeholder="请选择">
@@ -27,23 +31,20 @@
 				      :label="item.name"
 				      :value="item.id">
 				    </el-option>
-				  </el-select>
+				</el-select>
 			</div>
+			<!-- 搜索按钮 -->
 			<div class="search_box">
 				<el-button type="primary" icon="search" @click="getData">搜索</el-button>
 			</div>
+			<!-- 新增按钮 -->
 			<div class="search_box" style='float:right;margin-top:10px;'>
 				<router-link to="/addGood">
 					<el-button type="success" icon="edit" class="handle-edit mr10" >新增商品</el-button>
 				</router-link>
 			</div>
-			
-			
-			
-			
-			
-			
 		</div>
+		<!-- 表格 -->
 		<el-table :data="tableData" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
 			<el-table-column type="selection" width="55"></el-table-column>
 			<el-table-column prop="id" label="序号" sortable width="100">
@@ -56,7 +57,6 @@
 				</template>
 			</el-table-column>
 			<el-table-column prop="category.name" label="所属分类" width="120">
-				
 			</el-table-column>
 			<el-table-column prop="price" label="价格" width="120">
 			</el-table-column>
@@ -64,14 +64,8 @@
 			</el-table-column>
 			<el-table-column prop="order" label="排序" width="120">
 			</el-table-column>
-			<!-- <el-table-column prop="desc" label="商品描述" >
-			</el-table-column> -->
 			<el-table-column prop="pos_no" label="对应pos" width="100">
 			</el-table-column>
-			<!-- <el-table-column prop="is_top" label="是否热门" width="100">
-			</el-table-column>
-			<el-table-column prop="is_recommend" label="是否置顶" width="100">
-			</el-table-column> -->
 			<el-table-column label="操作" width="180">
 				<template scope="scope">
 					<router-link :to="{ path: 'addGood', query: { id: scope.row.id}}" >
@@ -99,21 +93,19 @@
 			return {
 				tableData: [],
 				cur_page: 1,
+				//删除相关
 				multipleSelection: [],
-				select_word: '',
 				del_list: [],
-				is_search: false,
+				//分页相关
 				size:0,
                 total:10,
-
+                //商品分类列表
                 Category: [],
-
+                // 搜索参数
                 searchData:{
                 	search:"",
                 	category_id:''
-                },
-		        searchCategoryId:'',
-		        searchWord:''
+                }
 			}
 		},
 		created() {
@@ -121,36 +113,12 @@
 			this.getAllCategory()
 		},
 		methods: {
+			//分页
 			handleCurrentChange(val) {
 				this.cur_page = val;
 				this.getData();
 			},
-			goodsSearch(){
-				let self = this;
-                axios.get(api.baseUrl +'/goods/',
-                	{
-					    params: {
-					      	page:'',
-							search:self.searchData.search,
-							category_id: self.searchData.category_id,
-							brand_id:localStorage.getItem('type')
-					    }
-					  }
-                ).then((res) => {
-                    if(res.data.responseCode == 0) {
-                        self.$message({
-                          type: 'info',
-                          message: `网络异常，获取失败`
-                        });
-                    } else {
-                        self.tableData=res.data.data.data;
-                        self.size=res.data.data.per_page;
-                        self.total=res.data.data.total;
-                    }
-                }).catch(function(error) {
-                    //console.log(error);
-                });
-			},
+			//获得所有分类
 			getAllCategory(){
 				let self = this;
                 axios.get(api.baseUrl +'/categories',
@@ -158,7 +126,7 @@
 					    params: {
 					      	brand_id: localStorage.getItem('type')
 					    }
-					  }
+					}
                 ).then((res) => {
                     if(res.data.responseCode == 0) {
                         self.$message({
@@ -166,18 +134,14 @@
                           message: `网络异常，获取失败`
                         });
                     } else {
-                    	////console.log(res.data.data)
                         self.Category=res.data.data;
-                        // self.size=res.data.data.per_page;
-                        // self.total=res.data.data.total;
                     }
-                }).catch(function(error) {
-                    console.log(error);
                 });
 			},
+			//获得所有数据，兼商品搜索
 			getData() {
 				let self = this;
-                axios.get(api.baseUrl +'/goods/',
+                axios.get(api.baseUrl +'/goods',
                 	{
 					    params: {
 					      	page:self.cur_page,
@@ -185,7 +149,7 @@
 							category_id: self.searchData.category_id,
 							brand_id:localStorage.getItem('type')
 					    }
-					  }
+					}
                 ).then((res) => {
                     if(res.data.responseCode == 0) {
                         self.$message({
@@ -197,13 +161,9 @@
                         self.size=res.data.data.per_page;
                         self.total=res.data.data.total;
                     }
-                }).catch(function(error) {
-                    //console.log(error);
                 });
 			},
-			search() {
-				this.is_search = true;
-			},
+			// 删除
 			handleDelete(row) {
 				let self = this;
 				this.$confirm('确认删除？')
@@ -223,20 +183,17 @@
 	                        self.multipleSelection = [];
 	                        self.getData()
 	                    }
-	                }).catch(function(error) {
-	                    //console.log(error);
 	                });
 		          })
 		          .catch(_ => {});
-                
 			},
+			// 多行删除
 			delAll() {
 				const self = this,
 					length = self.multipleSelection.length;
 				let str =[];
 				self.del_list = self.del_list.concat(self.multipleSelection);
 				if(length==0){
-
                     self.$message({
                       type: 'info',
                       message: `请选择待删除行数`
@@ -248,11 +205,11 @@
 					var row={
 	                    id:str.join(',')
 	                }
+	                // 调用删除方法
 	                self.handleDelete(row)
-					
                 }
-				
 			},
+			//选择行
 			handleSelectionChange(val) {
 				this.multipleSelection = val;
 			}
@@ -272,7 +229,7 @@
 		width: 300px;
 		display: inline-block;
 	}
-
+	/*置顶，热门图标*/
 	@font-face {
 	  font-family: 'iconfont';  /* project id 402141 */
 	  src: url('https://at.alicdn.com/t/font_402141_g71wq40q95krcnmi.eot');

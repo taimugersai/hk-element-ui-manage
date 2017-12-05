@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-    <div class="logo"><span v-if='active==1'>品默</span><span v-if='active==2'>麻麻香</span>后台管理系统</div>
+    <div class="logo"><span >{{username}}</span>后台管理系统</div>
         <div class="user-info">
             <el-dropdown trigger="click" @command="handleCommand">
                 <span class="el-dropdown-link">
@@ -52,16 +52,21 @@
             handleCommand(command) {
                 var self=this;
                 if(command == 'loginout'){
-
+                    //退出登录
                     localStorage.removeItem('token')
                     axios.defaults.headers.common['Authorization'] = 'Bearer ';
                     this.$router.push('/login');
                 }else{
+                    //选择类型
                     self.active=command
                     localStorage.setItem('type',command);
-                     this.$router.go(0)
+                    //刷新页面
+                    this.$router.go(0)
                 }
             },
+            // handleSelect(key, keyPath) {
+            //     console.log(key, keyPath);
+            // }
            
         }
     }

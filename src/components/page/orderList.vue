@@ -1,18 +1,21 @@
 <template>
 	<div class="table">
+		<!-- 面包屑 -->
 		<div class="crumbs">
 			<el-breadcrumb separator="/">
 				<el-breadcrumb-item><i class="el-icon-menu"></i> 订单管理</el-breadcrumb-item>
 				<el-breadcrumb-item> 订单列表</el-breadcrumb-item>
 			</el-breadcrumb>
 		</div>
-
+		<!-- 搜索框 -->
 		<div class="handle-box">
+			<!-- 订单号 -->
 			<div class="search_box">
 				<span style='margin-left:10px;margin-right:10px'>订单:</span>
 				<el-input v-model="out_trade_no" placeholder="输入订单号" class="handle-input mr10" style='width:200px'></el-input>
 			</div>
-			 <div class="search_box">
+			<!-- 时间选择 -->
+			<div class="search_box">
                 <span style='margin-left:10px;margin-right:10px'>选择时间:</span>
                  <el-date-picker
                   v-model="ordered_at"
@@ -23,11 +26,10 @@
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
                   value-format='yyyy-MM-dd'
-
                   :picker-options="pickerOptions2">
                 </el-date-picker>
             </div>
-
+			<!-- 订单状态 -->
 			<div class="search_box">
 				<span style='margin-left:10px;margin-right:10px'>订单状态:</span>
 			    <el-select v-model="status" placeholder="请选择">
@@ -39,12 +41,11 @@
 				    </el-option>
 				</el-select>
 			</div>
-			
+			<!-- 门店 -->
 			<div class="search_box">
 				<span style='margin-left:10px;margin-right:10px'>门店:</span>
 				<el-select v-model="store_id" placeholder="请选择">
 					<el-option
-				      
 				      label="全部 "
 				      value="">
 				    </el-option>
@@ -56,17 +57,13 @@
 				    </el-option>
 				  </el-select>
 			</div>
-			
+			<!-- 搜索按钮 -->
 			<div class="search_box">
 				<el-button type="primary" icon="search" @click="getData" style='margin-top:10px;margin-left:20px;'>搜索</el-button>
 			</div>
-		    
-		    
-			
-			
 		</div>
-		<el-table :data="tableData" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
-			<el-table-column type="selection" width="55"></el-table-column>
+		<!-- 表格 -->
+		<el-table :data="tableData" border style="width: 100%" ref="multipleTable" >
 			<el-table-column prop="out_trade_no" label="订单号" sortable width="200">
 			</el-table-column>
 			<el-table-column prop="receive_info" label="收货信息" width="450">
@@ -84,7 +81,6 @@
 			</el-table-column>
 			<el-table-column prop="actual_fee" label="实付金额" width="100">
 			</el-table-column>
-			
 			<el-table-column prop="name" label="订单状态" width="125">
 				<template scope='scope'>
 				<!-- 	<p v-if='scope.row.status==0' style="color:#F7BA2A">待付款</p> -->
@@ -95,7 +91,6 @@
 					<p v-if='scope.row.status==5' style="color:#13CE66">确认收货</p>
 					<p v-if='scope.row.status==6' style="color:#F7BA2A">申请退款</p>
 					<p v-if='scope.row.status==7' style="color:#FF4949">已退款</p>
-					
 				</template>
 			</el-table-column>
 			<el-table-column prop="ordered_at" label="下单时间" width="200">
@@ -105,17 +100,14 @@
 					<router-link   :to="{ path: 'orderDetail', query: { id: scope.row.id}}" >
 						<el-button size="small" type="primary">操作</el-button>
 					</router-link>
-					
 				</template>
 			</el-table-column>
 		</el-table>
+		<!-- 分页 -->
 		<div class="pagination">
 			<el-pagination @current-change="handleCurrentChange" layout="prev, pager, next" :total="10">
 			</el-pagination>
 		</div>
-		</el-tab-pane>
-	</div>
-
 	</div>
 </template>
 
@@ -126,17 +118,8 @@
 	export default {
 		data() {
 			return {
-				activeName: 'first',
-				url: './static/vuetable.json',
 				tableData: [],
-				cur_page: 1,
-				multipleSelection: [],
-				select_cate: '',
-				select_word: '',
-				del_list: [],
-				is_search: false,
-
-
+				cur_page: 1,//当前页
 				pickerOptions2: {
 		          shortcuts: [{
 		            text: '最近一周',
@@ -164,8 +147,7 @@
 		            }
 		          }]
 		        },
-
-
+		        //订单状态
 				options: [{
 		          value: 'all',
 		          label: '全部'
@@ -194,9 +176,10 @@
 		          value: '7',
 		          label: '已退款'
 		        }],
+		        //门店列表
 		        store:[],
 
-
+		        //搜索订单号，时间，订单状态，门店id
 		        out_trade_no:'',
 		        ordered_at:'',
 		        status:"all",
@@ -204,6 +187,7 @@
 			}
 		},
 		mounted() {
+			//如果路由中传来订单状态
 			if(this.$router.history.current.query.status){
 				this.status=this.$router.history.current.query.status
 			}
@@ -211,19 +195,20 @@
 			this.getStore();
 		},
 		methods: {
+			//翻页
 			handleCurrentChange(val) {
 				this.cur_page = val;
 				this.getData();
 			},
+			//获得门店
 			getStore(){
 				let self = this;
                 axios.get(api.baseUrl +'/stores',
                 	{
 					    params: {
-					    	
 							brand_id:localStorage.getItem('type')
 					    }
-					  }
+					}
                 ).then((res) => {
                     if(res.data.responseCode == 0) {
                         self.$message({
@@ -231,16 +216,14 @@
                           message: `网络异常，获取失败`
                         });
                     } else {
-                    	//console.log(res)
                     	self.store=res.data.data
-                        
                     }
-                }).catch(function(error) {
-                    //console.log(error);
                 });
 			},
+			//获得数据
 			getData() {
 				let self = this;
+				//处理时间
 				var time = String(self.ordered_at)
                 if(time.split(',')[1]){
                   var date_range=time.split(',')[0]+'/'+time.split(',')[1]
@@ -257,7 +240,7 @@
 						 	store_id:self.store_id,
 							brand_id:localStorage.getItem('type')
 					    }
-					  }
+					}
                 ).then((res) => {
                     if(res.data.responseCode == 0) {
                         self.$message({
@@ -269,61 +252,7 @@
                         self.size=res.data.data.per_page
                         self.total=res.data.data.total
                     }
-                }).catch(function(error) {
-                    //console.log(error);
                 });
-			},
-			search() {
-				let self = this;
-                axios.get(api.baseUrl +'/order/'+localStorage.getItem('type')+'?page='+self.cur_page,
-                	 {
-					    params: {
-					      	ordered_at:self.ordered_at,
-							out_trade_no:self.out_trade_no,
-							status: self.status,
-							store_id:self.store_id
-					    }
-					  }
-                ).then((res) => {
-                    if(res.data.responseCode == 0) {
-                        self.$message({
-                          type: 'info',
-                          message: `网络异常，获取失败`
-                        });
-                    } else {
-                        self.tableData=res.data.data.data
-                        self.size=res.data.data.per_page
-                        self.total=res.data.data.total
-                    }
-                }).catch(function(error) {
-                    //console.log(error);
-                });
-			},
-			formatter(row, column) {
-				return row.address;
-			},
-			filterTag(value, row) {
-				return row.tag === value;
-			},
-			handleEdit(index, row) {
-				this.$message('编辑第' + (index + 1) + '行');
-			},
-			handleDelete(index, row) {
-				this.$message.error('删除第' + (index + 1) + '行');
-			},
-			delAll() {
-				const self = this,
-					length = self.multipleSelection.length;
-				let str = '';
-				self.del_list = self.del_list.concat(self.multipleSelection);
-				for(let i = 0; i < length; i++) {
-					str += self.multipleSelection[i].name + ' ';
-				}
-				self.$message.error('删除了' + str);
-				self.multipleSelection = [];
-			},
-			handleSelectionChange(val) {
-				this.multipleSelection = val;
 			}
 		}
 	}
