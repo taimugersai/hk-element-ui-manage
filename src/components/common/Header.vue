@@ -25,7 +25,7 @@
             return {
                 name: '',
                 active:1,
-                imgUrl:'../../../static/img/pinmo_logo.png'
+                imgUrl:'../static/img/pinmo_logo.png'
             }
         },
         mounted:function(){
@@ -39,10 +39,10 @@
                 var username=""
                 if(this.active==1){
                     username="品默"
-                    this.imgUrl="../../../static/img/pinmo_logo.png"
+                    this.imgUrl="../static/img/pinmo_logo.png"
                 }else if(this.active==2){
                     username="麻麻香"
-                    this.imgUrl="../../../static/img/mama_logo.png"
+                    this.imgUrl="../static/img/mama_logo.png"
                 }
                 //let username = localStorage.getItem('ms_username');
                 return username;

@@ -17,7 +17,7 @@
 </template>
 
 <script>
-	import hk_form from './form'
+	import hk_form from './hk_form'
 	import api from '../../api/api.json'
 	import axios from 'axios';
 	import qs from 'qs';

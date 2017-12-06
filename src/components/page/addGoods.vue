@@ -138,7 +138,7 @@
 
 <script>
 	import { quillEditor } from 'vue-quill-editor';
-	import hk_form from './form'
+	import hk_form from './hk_form'
 	import hk_quill from './quill'
 	import api from '../../api/api.json'
 	import axios from 'axios';

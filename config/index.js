@@ -29,15 +29,11 @@ module.exports = {
         assetsPublicPath: '/',
         proxyTable: {
             '/api':{
-                target:'http://jsonplaceholder.typicode.com',
+                target:'http://120.27.233.70/api/admin',
                 changeOrigin:true,
                 pathRewrite:{
-                    '/api':''
+                      '^/api': '/'
                 }
-            },
-            '/ms':{
-                target: 'https://www.easy-mock.com/mock/592501a391470c0ac1fab128',
-                changeOrigin: true
             }
         },
         // CSS Sourcemaps off by default because relative paths are "buggy"

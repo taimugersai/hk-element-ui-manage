@@ -83,7 +83,7 @@
         </router-link>
       </el-col>
 		</el-row>
-		<audio id="bgMusic" src='../../../static/newVoice.mp3'>
+		<audio id="bgMusic" src='../static/newVoice.mp3'>
 
 		</audio>
 	</div>
@@ -180,7 +180,7 @@
 			this.getBigOrderUntreated();
 			setInterval(function() {
 				self.getNew();
-				this.getBigOrderNew();
+				self.getBigOrderNew();
 			}, 300000)
 		},
 		computed:{

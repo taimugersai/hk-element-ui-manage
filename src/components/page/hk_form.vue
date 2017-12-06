@@ -79,7 +79,7 @@
 		name: 'form',
 		data() {
 			return {
-				uploadUrl:"/api/upload"
+				uploadUrl:api.baseUrl+"/upload"
 				// {'label':'商品名称',"type":'text',"value":''},//输入框。label为标题，type为类型，value为默认值
 				// {'label':'所属分类',"type":'select',"value":'','placeholder':'',opinion:[{value:"小西点1"},{value:"小西点2"},{value:"小西点3"},{value:"小西点4"},{value:"小西点5"}]},//下来列表。label为标题，type为类型，value为默认值需要为数组,opinion为复选框的选项
 				// {'label':'基础价格',"type":'text',"value":''},
