@@ -541,9 +541,21 @@
 		cursor: pointer;
 		position: relative;
 		overflow: hidden;
-		width: 180px;
+		width: 240px;
 	}
-	
+	.el-upload--picture-card{
+		width: 240px;
+		height: 180px;
+		line-height: 180px;
+	}
+	.el-upload-list__item{
+		width: 240px!important;
+		height: 180px!important;
+	}
+	.el-upload-list__item-thumbnail{
+		width: 240px!important;
+		height: 180px!important;
+	}
 	.avatar-uploader .el-upload:hover {
 		border-color: #20a0ff;
 	}

@@ -84,7 +84,7 @@
 				<el-table :data="goods" border style="width: 100%" ref="multipleTable"  class="firstTable">
 					<el-table-column prop="name" label="商品">
 					</el-table-column>
-					<el-table-column prop="pivot.attribute" label="商品属性">
+					<el-table-column prop="pivot.attributes" label="商品属性">
 					</el-table-column>
 					<el-table-column prop="pivot.number" label="数量">
 					</el-table-column>
