@@ -15,7 +15,7 @@
 			</div>
 			<!-- 搜索名 -->
 			<div class="search_box">
-				<span>商品搜索：</span>
+				<span>商品搜索：<font style="display:none;">{{categoryId}}</font></span>
 				<el-input v-model="searchData.search" placeholder="请输入商品名称或编号" class="handle-input mr10"></el-input>
 			</div>
 			<!-- 分类 -->
@@ -77,7 +77,7 @@
 		</el-table>
 		<!-- 分页 -->
 		<div class="pagination">
-			<el-pagination @current-change="handleCurrentChange" layout="prev, pager, next" :total="total" :page-size='size'>
+			<el-pagination @current-change="handleCurrentChange" :current-page='cur_page' layout="prev, pager, next" :total="total" :page-size='size'>
 			</el-pagination>
 		</div>
 		</el-tab-pane>
@@ -109,13 +109,53 @@
 			}
 		},
 		created() {
-			this.getData();
+			var self=this;
 			this.getAllCategory()
+			if(localStorage.getItem('page')){
+				self.cur_page=Number(localStorage.getItem('page'))
+			}
+			setTimeout(function(){
+				if(localStorage.getItem('category_id')){
+					var ids=[]
+					for(var i=0;i<self.Category.length;i++){
+						ids.push(self.Category[i].id)
+					}
+
+					if(contains(ids,localStorage.getItem('category_id'))){
+						self.searchData.category_id=''
+					}else{
+						self.searchData.category_id=Number(localStorage.getItem('category_id'))
+					}
+				}
+				self.getData();
+			},500)
+			
+			
+			
+
+		},
+		computed:{
+			categoryId:function(){
+				var self = this;
+				
+				if(self.searchData.category_id!=""){
+					localStorage.setItem('category_id', self.searchData.category_id);
+				}
+				setTimeout(function(){
+					if(self.searchData.category_id==""){
+						localStorage.setItem('category_id', '');
+					}
+				},1500)
+				return false;
+				
+				
+			}
 		},
 		methods: {
 			//分页
 			handleCurrentChange(val) {
 				this.cur_page = val;
+				localStorage.setItem('page', val);
 				this.getData();
 			},
 			//获得所有分类
@@ -215,6 +255,15 @@
 			}
 		}
 	}
+	function contains(arr, obj) {  
+	    var i = arr.length;  
+	    while (i--) {  
+	        if (arr[i] === obj) {  
+	            return true;  
+	        }  
+	    }  
+	    return false;  
+	}  
 </script>
 <style scoped>
 	.handle-box {

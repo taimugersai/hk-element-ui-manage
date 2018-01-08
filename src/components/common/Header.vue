@@ -60,6 +60,8 @@
                     //选择类型
                     self.active=command
                     localStorage.setItem('type',command);
+                    localStorage.setItem('category_id', '');
+                    localStorage.setItem('page', '1');
                     //刷新页面
                     this.$router.go(0)
                 }

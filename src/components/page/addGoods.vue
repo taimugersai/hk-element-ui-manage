@@ -52,7 +52,7 @@
 					    <el-input type="textarea" v-model="formData.desc"></el-input>
 					  </el-form-item>
 					  <el-form-item label="静态属性" required >
-					  	  <el-button type="primary" icon="plus" @click='addStaticAttributes'></el-button>
+					  	  <el-button type="primary" icon="el-icon-plus" @click='addStaticAttributes'></el-button>
 						  <div v-for='(item,index) in static_attributes'  style="margin-top:20px" >
 						  	<el-input v-model="item.staticAttributesName" style='width:80px'></el-input>
 								<el-tag
@@ -77,11 +77,11 @@
 				                  >
 				                  </el-input>
 				                  <el-button v-else class="button-new-tag" size="small" @click="showInput(index)">添加新属性</el-button>
-				                <el-button type="primary" icon="delete" @click="deleteAttribute(index)"></el-button>
+				                <el-button type="primary" icon="el-icon-delete" @click="deleteAttribute(index)"></el-button>
 						  </div>
 					  </el-form-item>
 					  <el-form-item label="多选属性" required >
-					  	  <el-button type="primary" icon="plus" @click='addCheckAttributes'></el-button>
+					  	  <el-button type="primary" icon="el-icon-plus" @click='addCheckAttributes'></el-button>
 						  <div v-for='(item,index) in check_attributes'  style="margin-top:20px" >
 						  	<el-input v-model="item.checkAttributesName" style='width:80px'></el-input>
 								<el-tag
@@ -106,7 +106,7 @@
 				                  >
 				                  </el-input>
 				                  <el-button v-else class="button-new-tag" size="small" @click="showCheckInput(index)">添加新属性</el-button>
-				                <el-button type="primary" icon="delete" @click="deleteCheckAttribute(index)"></el-button>
+				                <el-button type="primary" icon="el-icon-delete" @click="deleteCheckAttribute(index)"></el-button>
 						  </div>
 					  </el-form-item>
 					  <el-form-item label="是否置顶" required>
@@ -123,6 +123,8 @@
 					  </el-form-item>
 					  <el-form-item label="商品详情" required>
 						<hk_quill ref="myTextEditor" v-model="formData.content" :uploadUrl='actionUrl' :fileName='"file"'></hk_quill>
+						<!-- <UE :defaultMsg=defaultMsg :config=config :id=ue1 ref="ue"></UE> -->
+						 <!-- <froala  :config="config" v-model="formData.content"></froala> -->
 					  </el-form-item>
 
 					  <el-form-item>
@@ -138,11 +140,13 @@
 
 <script>
 	import { quillEditor } from 'vue-quill-editor';
+	import UE from '../../components/ue/ue.vue';
 	import hk_form from './hk_form'
 	import hk_quill from './quill'
 	import api from '../../api/api.json'
 	import axios from 'axios';
 	import qs from 'qs';
+	import VueFroala from 'vue-froala-wysiwyg';
 	export default {
 		data() {
 			return {
@@ -198,15 +202,32 @@
 		            { required: true, message: '请输入商品描述', trigger: 'blur' },
 		            { min: 1, max: 32, message: '长度在 1 到 32 个字符', trigger: 'blur' }
 		          ]
-		        }
+		        },
 		      
+		        // defaultMsg: '',
+		        // config: {
+		        //   initialFrameWidth: null,
+		        //   initialFrameHeight: 350
+		        // },
+		        // ue1: "ue1", // 不同编辑器必须不同的id
 
+		        config:{
+			        inlineStyles: {
+			          '单倍行距': 'line-height:28px;',
+			          '1.5倍行距': 'line-height:42px;',
+			          '两倍行距': 'line-height:56px;'
+			        },
+			        toolbarSticky: false,
+			        imageUploadURL:"http://120.27.233.70/api/admin/upload",
+			      },
+			      
 			}
 		},
 		components: {
 			quillEditor,
 			hk_form,
-			hk_quill
+			hk_quill,
+			UE,
 		},
 		created(){
 			var self=this;
@@ -264,6 +285,7 @@
 			            self.formData.pos_no=res.pos_no
 			            self.formData.stock=res.stock
 			            self.formData.price=res.price
+			            
 			            self.formData.content=res.content
 			            self.formData.ifTop=res.is_top
 			            self.formData.isRecommend=res.is_recommend
@@ -492,7 +514,7 @@
                       type: 'info',
                       message: `提交成功`
                     });
-                    self.$router.push('/goods')
+                    self.$router.back(-1)
                 }
 			},
 			//标签删除属性
@@ -574,4 +596,43 @@
 		height: 100%;
 		display: block;
 	}
+
+
+
+	 .ql-font span[data-label="Sans Serif"]::before {
+    font-family: "Sans Serif";
+  }
+  
+   .ql-font span[data-label="Inconsolata"]::before {
+    font-family: "Inconsolata";
+  }
+  
+   .ql-font span[data-label="Roboto"]::before {
+    font-family: "Roboto";
+  }
+  
+   .ql-font span[data-label="Mirza"]::before {
+    font-family: "Mirza";
+  }
+  
+   .ql-font span[data-label="Arial"]::before {
+    font-family: "Arial";
+  }
+  /* Set content font-families */
+  
+  .ql-font-inconsolata {
+    font-family: "Inconsolata";
+  }
+  
+  .ql-font-roboto {
+    font-family: "Roboto";
+  }
+  
+  .ql-font-mirza {
+    font-family: "Mirza";
+  }
+  
+  .ql-font-arial {
+    font-family: "Arial";
+  }
 </style>

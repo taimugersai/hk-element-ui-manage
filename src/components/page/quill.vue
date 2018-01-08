@@ -17,19 +17,20 @@
         <span class="ql-formats"> <button type="button" class="ql-direction" value="rtl"></button></span>
  
       <span class="ql-formats"><select class="ql-size">
-        <option value="small"></option>
-        <option selected=""></option>
-        <option value="large"></option>
-        <option value="huge"></option>
+        <option value="small">小字体</option>
+        <option selected="">中字体</option>
+        <option value="large">大字体</option>
+        <option value="huge">超大字</option>
+
       </select></span>
       <span class="ql-formats"><select class="ql-header">
-        <option value="1"></option>
-        <option value="2"></option>
-        <option value="3"></option>
-        <option value="4"></option>
-        <option value="5"></option>
-        <option value="6"></option>
-        <option selected="selected"></option>
+        <option value="1">标题1</option>
+        <option value="2">标题2</option>
+        <option value="3">标题3</option>
+        <option value="4">标题4</option>
+        <option value="5">标题5</option>
+        <option value="6">标题6</option>
+        <option selected="selected">标题7</option>
       </select></span>
       <span class="ql-formats"><select class="ql-color">
         <option selected="selected"></option>
@@ -106,9 +107,14 @@
         <option value="#3d1466"></option>
       </select></span>
       <span class="ql-formats"><select class="ql-font">
-        <option selected="selected"></option>
-        <option value="serif"></option>
-        <option value="monospace"></option>
+        <option selected="selected">灯芯体</option>
+        <option value="serif">衬线体</option>
+        <option value="monospace">等宽字体</option>
+        <!-- <option value="inconsolata">Inconsolata</option>
+        <option value="roboto">Roboto</option>
+        <option value="mirza">Mirza</option>
+        <option value="arial">Arial</option> -->
+
       </select></span>
       <span class="ql-formats">
         <select class="ql-align">
@@ -133,6 +139,7 @@
   import api from '../../api/api.json'
 	import axios from 'axios'
   import {quillEditor} from 'vue-quill-editor'
+  
   export default {
     props:{
       value:{
@@ -225,3 +232,6 @@
     }
   }
 </script>
+<style type="text/css">
+  
+</style>

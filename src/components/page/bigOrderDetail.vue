@@ -70,6 +70,16 @@
 							<p >{{scope.row.address.split('/')[2]}}</p>
 						</template>
 					</el-table-column>
+					<el-table-column prop="name" label="配送方式">
+						<template scope='scope'>
+							<p >{{scope.row.delivery}}</p>
+						</template>
+					</el-table-column>
+					<el-table-column  label="预约时间">
+						<template scope='scope'>
+							<p >{{scope.row.appoint_time+'-'+end_time}}</p>
+						</template>
+					</el-table-column>
 					<el-table-column prop="remark" label="备注信息">
 					</el-table-column>
 				</el-table>
@@ -180,7 +190,7 @@
 		          value: '6',
 		          label: '已退款'
 		        }],
-
+		        end_time:'00:00'
 			}
 		},
 		components: {
@@ -209,6 +219,21 @@
                     	self.works = res.data.data.options
                     	self.changestatus=""+res.data.data.status
                     	//self.store=res.data.data.data
+
+                    	var startTime = new Date(res.data.data.appoint_time);
+						var time = startTime.getTime() + 1000*60*30;
+						var d = new Date(time);
+
+
+						var hour=d.getHours()
+						var minute=d.getMinutes()
+						if(hour<10){
+							hour='0'+hour
+						}
+						if(minute<10){
+							minute='0'+minute
+						}
+						self.end_time = hour+':'+minute
                         
                     }
                 }).catch(function(error) {
